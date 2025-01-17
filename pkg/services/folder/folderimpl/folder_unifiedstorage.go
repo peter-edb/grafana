@@ -52,7 +52,6 @@ type foldk8sHandler struct {
 	tracer     tracing.Tracer
 	namespacer request.NamespaceMapper
 	gvr        schema.GroupVersionResource
-	searcher   resource.ResourceIndexClient
 }
 
 func (s *Service) getFoldersFromApiServer(ctx context.Context, q folder.GetFoldersQuery) ([]*folder.Folder, error) {

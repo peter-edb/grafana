@@ -18,7 +18,6 @@ import (
 	"github.com/grafana/grafana/pkg/apimachinery/utils"
 	"github.com/grafana/grafana/pkg/events"
 	"github.com/grafana/grafana/pkg/infra/metrics"
-	"github.com/grafana/grafana/pkg/infra/tracing"
 	"github.com/grafana/grafana/pkg/services/accesscontrol"
 	"github.com/grafana/grafana/pkg/services/apiserver/endpoints/request"
 	"github.com/grafana/grafana/pkg/services/dashboards"
@@ -28,6 +27,7 @@ import (
 	"github.com/grafana/grafana/pkg/services/folder"
 	"github.com/grafana/grafana/pkg/services/guardian"
 	"github.com/grafana/grafana/pkg/services/store/entity"
+	"github.com/grafana/grafana/pkg/services/unifiedstorage"
 	"github.com/grafana/grafana/pkg/setting"
 	"github.com/grafana/grafana/pkg/storage/unified/resource"
 	"github.com/grafana/grafana/pkg/util"
@@ -43,12 +43,10 @@ type folderK8sHandler interface {
 var _ folderK8sHandler = (*foldk8sHandler)(nil)
 
 type foldk8sHandler struct {
-	cfg        *setting.Cfg
-	features   featuremgmt.FeatureToggles
-	unified    resource.ResourceClient
-	tracer     tracing.Tracer
-	namespacer request.NamespaceMapper
-	gvr        schema.GroupVersionResource
+	cfg               *setting.Cfg
+	namespacer        request.NamespaceMapper
+	gvr               schema.GroupVersionResource
+	unistoreClientFnc unifiedstorage.GetClient
 }
 
 func (s *Service) getFoldersFromApiServer(ctx context.Context, q folder.GetFoldersQuery) ([]*folder.Folder, error) {

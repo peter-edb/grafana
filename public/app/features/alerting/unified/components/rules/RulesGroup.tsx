@@ -233,7 +233,7 @@ export const RulesGroup = React.memo(({ group, namespace, expandAll, viewMode }:
         rulesSource: {
           uid: getDatasourceAPIUid(rulesSourceName),
           name: rulesSourceName,
-          ruleSourceType: 'external',
+          ruleSourceType: 'datasource',
         },
         groupName: group.name,
         namespace: { name: namespace.name },
